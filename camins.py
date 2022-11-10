@@ -5,19 +5,19 @@ from config import config
 connexio = None
 
 
-def mostrarDescripcioLocalitzacio():
+def mostraCami():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols veure: ")
+        idCami = input("Posa la ID del camí que vols veure: ")
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT descripcio FROM localitzacions WHERE id= " + idlocalitzacio + ";"
+        consulta = " SELECT * FROM camins WHERE id= " + idCami + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
-        print(Fore.BLUE + (answer[0] + "\n"))
+        print(Fore.RED + (answer[0] + "\n"))
         print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -28,21 +28,22 @@ def mostrarDescripcioLocalitzacio():
             connexio.close()
 
 
-def crearLocalitzacio():
+def crearCami():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        lclnom = input("Introdueix el nom de la nova localització: ")
-        lcldescripcio = input("Introdueix la descripcio de la nova localització: ")
-        lclsortides = input("Introdueix una petita descripció per a la sortida de la nova localització: ")
+        cmiIdOrigen = input("Introdueix la IdOrigen del nou camí: ")
+        cmiIdDesti = input("Introdueix la IdDesti del nou camí: ")
+        cmiNomOrigen = input("Introdueix el Nom Origen del nou camí: ")
+        cmiNomDesti = input("Introdueix el Nom Desti del nou camí: ")
         # SENTENCIA A EXECUTAR
-        consulta = " INSERT INTO localitzacions (nom,descripcio,sortides) VALUES ('" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
+        consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + cmiIdOrigen + "','" + cmiIdDesti + "','" + cmiNomOrigen + "''" + cmiNomDesti + "');"
         cursor.execute(consulta)
         connexio.commit()
-        print("Localització creada")
+        print("Camí creat")
         print()
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -53,27 +54,25 @@ def crearLocalitzacio():
             connexio.close()
 
 
-def modificarLocalitzacio():
+def modificarCami():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols modificar: ")
-        consulta = " SELECT FROM localitzacions WHERE id= " + idlocalitzacio + ";"
+        idCami = input("Posa la ID del camí que vols modificar: ")
+        consulta = " SELECT FROM camins WHERE id= " + idCami + ";"
         if consulta:
-            lclnom = input("Introdueix el nou nom de la localització: ")
-            lcldescripcio = input("Introdueix la nova descripcio de la localització: ")
-            lclsortides = input("Introdueix la nova petita descripció per a la sortida de la localització: ")
+            cmiIdOrigen = input("Introdueix la nova IdOrigen del camí: ")
+            cmiIdDesti = input("Introdueix la nova IdDesti del camí: ")
+            cmiNomOrigen = input("Introdueix el nou Nom Origen del camí: ")
+            cmiNomDesti = input("Introdueix el nou Nom Desti del camí: ")
             # SENTENCIA A EXECUTAR
-            consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
+            consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + cmiIdOrigen + "','" + cmiIdDesti + "','" + cmiNomOrigen + "''" + cmiNomDesti + "');"
             cursor.execute(consulta)
             connexio.commit()
-            consulta = " INSERT INTO localitzacions (id,nom,descripcio,sortides) VALUES (" + idlocalitzacio + ",'" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
-            cursor.execute(consulta)
-            connexio.commit()
-            print("Localització modificiada")
+            print("Camí creat")
             print()
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -84,17 +83,17 @@ def modificarLocalitzacio():
             connexio.close()
 
 
-def eliminarLocalitzacio():
+def eliminarCami():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols eliminar: ")
+        idCami = input("Posa la ID del camí que vols eliminar: ")
 
         # SENTENCIA A EXECUTAR
-        consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
+        consulta = "DELETE FROM camins WHERE id = " + idCami + ";"
         cursor.execute(consulta)
         connexio.commit()
         print("Localització borrada")
@@ -108,7 +107,7 @@ def eliminarLocalitzacio():
             connexio.close()
 
 
-def llistarLocalitzacions():
+def llistarCami():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
@@ -116,7 +115,7 @@ def llistarLocalitzacions():
         cursor = connexio.cursor()
 
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT * FROM localitzacions;"
+        consulta = " SELECT * FROM camins;"
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:
@@ -133,11 +132,11 @@ def llistarLocalitzacions():
 
 
 while(True):
-    print("1- Mostrar una localització")
-    print("2- Crear una localització")
-    print("3- Modificar una localització")
-    print("4- Eliminar una localització")
-    print("5- Llistar totes les localitzacions")
+    print("1- Mostrar una camí")
+    print("2- Crear una camí")
+    print("3- Modificar una camí")
+    print("4- Eliminar una camí")
+    print("5- Llistar totes les camins")
     print("6- Sortir")
     resposta = int(input("Introduiex una opció: "))
 
@@ -146,18 +145,18 @@ while(True):
         break
 
     if resposta == 1:
-        mostrarDescripcioLocalitzacio()
+        mostraCami()
 
     if resposta == 2:
-        crearLocalitzacio()
+        crearCami()
 
     if resposta == 3:
-        modificarLocalitzacio()
+        modificarCami()
 
     if resposta == 4:
-        eliminarLocalitzacio()
+        eliminarCami()
 
     if resposta == 5:
-       llistarLocalitzacions()
+       llistarCami()
 
 
