@@ -1,16 +1,22 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from backend import menuLocalitzacions
+from camins import menuCamins
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+while True:
+    print("1- Apartat de Localitzacions")
+    print("2- Apartat de Camins")
+    print("3- Sortir")
+    resposta = int(input("On vols treballar? "))
+    print()
 
+    if resposta == 3:
+        print("Andusiauuu!")
+        break
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    if resposta == 1:
+        print("Benvingut al apartat de Localitzacions:")
+        menuLocalitzacions()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    if resposta == 2:
+        print("Benvingut al apartat de Camins:")
+        menuCamins()

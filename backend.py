@@ -132,32 +132,33 @@ def llistarLocalitzacions():
             connexio.close()
 
 
-while(True):
-    print("1- Mostrar una localització")
-    print("2- Crear una localització")
-    print("3- Modificar una localització")
-    print("4- Eliminar una localització")
-    print("5- Llistar totes les localitzacions")
-    print("6- Sortir")
-    resposta = int(input("Introduiex una opció: "))
+def menuLocalitzacions():
+    while(True):
+        print("1- Mostrar una localització")
+        print("2- Crear una localització")
+        print("3- Modificar una localització")
+        print("4- Eliminar una localització")
+        print("5- Llistar totes les localitzacions")
+        print("6- Sortir")
+        resposta = int(input("Introduiex una opció: "))
 
-    if resposta == 6:
-        print("Andusiauu!")
-        break
+        if resposta == 6:
+            print("Menu Principal:\n")
+            break
 
-    if resposta == 1:
-        mostrarDescripcioLocalitzacio()
+        if resposta == 1:
+            mostrarDescripcioLocalitzacio()
 
-    if resposta == 2:
-        crearLocalitzacio()
+        if resposta == 2:
+            crearLocalitzacio()
 
-    if resposta == 3:
-        modificarLocalitzacio()
+        if resposta == 3:
+            modificarLocalitzacio()
 
-    if resposta == 4:
-        eliminarLocalitzacio()
+        if resposta == 4:
+            eliminarLocalitzacio()
 
-    if resposta == 5:
-       llistarLocalitzacions()
+        if resposta == 5:
+           llistarLocalitzacions()
 
 
