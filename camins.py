@@ -5,7 +5,7 @@ from config import config
 connexio = None
 
 
-def mostraCami():
+def mostraCamiOrigenDesti():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
@@ -18,16 +18,77 @@ def mostraCami():
         consulta = "SELECT * FROM camins WHERE idorigen = " + idOrigenCami + " and iddesti = " + idDestiCami + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
-        print(Fore.GREEN + (str(answer) + "\n"))
-        print(Fore.RESET)
+        if answer is not None:
+            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.RESET)
+        else:
+            print(Fore.RED + "Aquest camí no existeix\n")
+            print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError) as error:
-        print("Aquest camí no existeix\n")
+        print(Fore.RED + "Aquest camí no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
             connexio.close()
 
+
+def mostraCamiOrigen():
+    try:
+        # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
+        params = config()
+        connexio = psycopg2.connect(**params)
+        cursor = connexio.cursor()
+
+        idOrigenCami = input("Posa la ID Origen dels camins que vols veure: ")
+        # SENTENCIA A EXECUTAR
+        consulta = "SELECT * FROM camins WHERE idorigen = " + idOrigenCami + ";"
+        cursor.execute(consulta)
+        answer = cursor.fetchone()
+        if answer is not None:
+            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.RESET)
+        else:
+            print(Fore.RED + "Aquest camí no existeix\n")
+            print(Fore.RESET)
+
+
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(Fore.RED + "Aquest camí no existeix\n")
+        print(Fore.RESET)
+
+    finally:
+        if connexio is not None:
+            connexio.close()
+
+def mostraCamiDesti():
+    try:
+        # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
+        params = config()
+        connexio = psycopg2.connect(**params)
+        cursor = connexio.cursor()
+
+        idDestiCami = input("Posa la ID Desti dels camins que vols veure: ")
+        # SENTENCIA A EXECUTAR
+        consulta = "SELECT * FROM camins WHERE iddesti = " + idDestiCami + ";"
+        cursor.execute(consulta)
+        answer = cursor.fetchone()
+        if answer is not None:
+            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.RESET)
+        else:
+            print(Fore.RED + "Aquest camí no existeix\n")
+            print(Fore.RESET)
+
+
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(Fore.RED + "Aquest camí no existeix\n")
+        print(Fore.RESET)
+
+    finally:
+        if connexio is not None:
+            connexio.close()
 
 def crearCami():
     try:
@@ -44,16 +105,15 @@ def crearCami():
         consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + cmiIdOrigen + "','" + cmiIdDesti + "','" + cmiNomOrigen + "','" + cmiNomDesti + "');"
         cursor.execute(consulta)
         connexio.commit()
-        print("Camí creat")
-        print()
+        print(Fore.GREEN + "Camí creat")
+        print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "\n")
+    except(Exception, psycopg2.DatabaseError):
+        print("Aquesta ID no es troba en la taula localitzacions\n")
 
     finally:
         if connexio is not None:
             connexio.close()
-
 
 def modificarCami():
     try:
@@ -62,8 +122,8 @@ def modificarCami():
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idOrigenCami = input("Posa la ID Origen del camí que vols veure: ")
-        idDestiCami = input("Posa la ID Desti del camí que vols veure: ")
+        idOrigenCami = input("Posa la ID Origen del camí que vols modificar: ")
+        idDestiCami = input("Posa la ID Desti del camí que vols modificar: ")
         consulta = " SELECT FROM camins WHERE idOrigen= " + idOrigenCami + " AND idDesti = " + idDestiCami + ";"
         if consulta:
             cmiNomOrigen = input("Introdueix el nou Nom Origen del camí: ")
@@ -75,11 +135,12 @@ def modificarCami():
             consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + idOrigenCami + "','" + idDestiCami + "','" + cmiNomOrigen + "','" + cmiNomDesti + "');"
             cursor.execute(consulta)
             connexio.commit()
-            print("Camí modificat")
-            print()
+            print(Fore.GREEN + "Camí modificat")
+            print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "Aquesta camí no existeix\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Aquesta camí no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -93,18 +154,28 @@ def eliminarCami():
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idOrigenCami = input("Posa la ID Origen del camí que vols veure: ")
-        idDestiCami = input("Posa la ID Desti del camí que vols veure: ")
+        idOrigenCami = input("Posa la ID Origen del camí que vols eliminar: ")
+        idDestiCami = input("Posa la ID Desti del camí que vols eliminar: ")
 
         # SENTENCIA A EXECUTAR
         consulta = " DELETE FROM camins WHERE idOrigen= " + idOrigenCami + " AND idDesti = " + idDestiCami + ";"
         cursor.execute(consulta)
         connexio.commit()
-        print("Localització borrada")
-        print()
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "Aquesta camí no existeix\n")
+        consulta = " SELECT FROM camins WHERE idOrigen= " + idOrigenCami + " AND idDesti = " + idDestiCami + ";"
+        cursor.execute(consulta)
+        connexio.commit()
+        if consulta:
+            print(Fore.GREEN + "Localització borrada")
+            print(Fore.RESET)
+        else:
+            print(Fore.RED + "Aquesta camí no existeix\n")
+            print(Fore.RESET)
+
+
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Aquesta camí no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -123,46 +194,54 @@ def llistarCami():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:
-            print(answer)
+            print(Fore.MAGENTA + str(answer))
+            print(Fore.RESET)
             answer = cursor.fetchone()
         cursor.close()
-        print()
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Encara no hi ha camins\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
             connexio.close()
 
-
 def menuCamins():
     while(True):
-        print("1- Mostrar una camí")
-        print("2- Crear una camí")
-        print("3- Modificar una camí")
-        print("4- Eliminar una camí")
-        print("5- Llistar totes les camins")
-        print("6- Sortir")
+        print("1- Mostrar una camí mijançant el seu Origen i Desti")
+        print("2- Mostrar els camí mijançant el seu Origen ")
+        print("3- Mostrar els camí mijançant el seu Desti")
+        print("4- Crear una camí")
+        print("5- Modificar una camí")
+        print("6- Eliminar una camí")
+        print("7- Llistar totes les camins")
+        print("8- Sortir")
         resposta = int(input("Introduiex una opció: "))
 
-        if resposta == 6:
+        if resposta == 8:
             print("Menu Principal:\n")
             break
 
         if resposta == 1:
-            mostraCami()
+            mostraCamiOrigenDesti()
 
         if resposta == 2:
-            crearCami()
+            mostraCamiOrigen()
 
         if resposta == 3:
-            modificarCami()
+            mostraCamiOrigen()
 
         if resposta == 4:
-            eliminarCami()
+            crearCami()
 
         if resposta == 5:
+            modificarCami()
+
+        if resposta == 6:
+            eliminarCami()
+
+        if resposta == 7:
            llistarCami()
 
 

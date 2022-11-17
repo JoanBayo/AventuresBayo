@@ -20,8 +20,9 @@ def mostrarDescripcioLocalitzacio():
         print(Fore.BLUE + (answer[0] + "\n"))
         print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print("Aquesta ID no existeix\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Aquesta ID no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -42,11 +43,12 @@ def crearLocalitzacio():
         consulta = " INSERT INTO localitzacions (nom,descripcio,sortides) VALUES ('" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
         cursor.execute(consulta)
         connexio.commit()
-        print("Localització creada")
-        print()
+        print(Fore.GREEN + "Localització creada")
+        print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "La localització no s'ha creat correctament\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -73,11 +75,13 @@ def modificarLocalitzacio():
             consulta = " INSERT INTO localitzacions (id,nom,descripcio,sortides) VALUES (" + idlocalitzacio + ",'" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
             cursor.execute(consulta)
             connexio.commit()
-            print("Localització modificiada")
+            print(Fore.GREEN + "Localització modificiada")
+            print(Fore.RESET)
             print()
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "Aquesta ID no existeix\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Aquesta ID no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -97,11 +101,12 @@ def eliminarLocalitzacio():
         consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
         cursor.execute(consulta)
         connexio.commit()
-        print("Localització borrada")
-        print()
+        print(Fore.GREEN + "Localització borrada")
+        print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print("Aquesta ID no existeix\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Aquesta ID no existeix\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
@@ -120,12 +125,14 @@ def llistarLocalitzacions():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:
-            print(answer)
+            print(Fore.BLUE + str(answer))
+            print(Fore.RESET)
             answer = cursor.fetchone()
         cursor.close()
 
-    except(Exception, psycopg2.DatabaseError) as error:
-        print(error + "\n")
+    except(Exception, psycopg2.DatabaseError):
+        print(Fore.RED + "Encara no hi ha localitzacions\n")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:
