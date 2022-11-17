@@ -15,10 +15,10 @@ def mostraCami():
         idOrigenCami = input("Posa la ID Origen del camí que vols veure: ")
         idDestiCami = input("Posa la ID Desti del camí que vols veure: ")
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT * FROM camins WHERE idOrigen= " + idOrigenCami + " AND idDesti = " + idDestiCami + ";"
+        consulta = "SELECT * FROM camins WHERE idorigen = " + idOrigenCami + " and iddesti = " + idDestiCami + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
-        print(Fore.RED + (answer[0] + "\n"))
+        print(Fore.GREEN + (str(answer) + "\n"))
         print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -41,7 +41,7 @@ def crearCami():
         cmiNomOrigen = input("Introdueix el Nom Origen del nou camí: ")
         cmiNomDesti = input("Introdueix el Nom Desti del nou camí: ")
         # SENTENCIA A EXECUTAR
-        consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + cmiIdOrigen + "','" + cmiIdDesti + "','" + cmiNomOrigen + "''" + cmiNomDesti + "');"
+        consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + cmiIdOrigen + "','" + cmiIdDesti + "','" + cmiNomOrigen + "','" + cmiNomDesti + "');"
         cursor.execute(consulta)
         connexio.commit()
         print("Camí creat")
@@ -69,10 +69,13 @@ def modificarCami():
             cmiNomOrigen = input("Introdueix el nou Nom Origen del camí: ")
             cmiNomDesti = input("Introdueix el nou Nom Desti del camí: ")
             # SENTENCIA A EXECUTAR
-            consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + idOrigenCami + "','" + idDestiCami + "','" + cmiNomOrigen + "''" + cmiNomDesti + "');"
+            consulta = " DELETE FROM camins WHERE idOrigen= " + idOrigenCami + " AND idDesti = " + idDestiCami + ";"
             cursor.execute(consulta)
             connexio.commit()
-            print("Camí creat")
+            consulta = " INSERT INTO camins (idOrigen,idDesti,NomOrigen,NomDesti) VALUES ('" + idOrigenCami + "','" + idDestiCami + "','" + cmiNomOrigen + "','" + cmiNomDesti + "');"
+            cursor.execute(consulta)
+            connexio.commit()
+            print("Camí modificat")
             print()
 
     except(Exception, psycopg2.DatabaseError) as error:
@@ -101,7 +104,7 @@ def eliminarCami():
         print()
 
     except(Exception, psycopg2.DatabaseError) as error:
-        print("Aquesta camí no existeix\n")
+        print(error + "Aquesta camí no existeix\n")
 
     finally:
         if connexio is not None:
