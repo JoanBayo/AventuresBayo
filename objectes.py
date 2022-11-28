@@ -2,19 +2,17 @@ import psycopg2
 from colorama import Fore
 from config import config
 
-connexio = None
 
-
-def mostrarDescripcioLocalitzacio():
+def mostrarDescripcioObjectes():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols veure: ")
+        idObjectes = input("Posa la ID del objecte que vols veure: ")
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT descripcio FROM localitzacions WHERE id= " + idlocalitzacio + ";"
+        consulta = " SELECT descripcio FROM objectes WHERE id= " + idObjectes + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
         print(Fore.BLUE + (answer[0] + "\n"))
@@ -29,25 +27,26 @@ def mostrarDescripcioLocalitzacio():
             connexio.close()
 
 
-def crearLocalitzacio():
+def crearObjecte():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        lclnom = input("Introdueix el nom de la nova localització: ")
-        lcldescripcio = input("Introdueix la descripcio de la nova localització: ")
-        lclsortides = input("Introdueix una petita descripció per a la sortida de la nova localització: ")
+        objNom = input("Introdueix el nom del nou objecte: ")
+        objPes = input("Introdueix el pes del nou objecte: ")
+        objDescripcio = input("Introdueix la descripcio del nou objecte: ")
+        objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
         # SENTENCIA A EXECUTAR
-        consulta = " INSERT INTO localitzacions (nom,descripcio,sortides) VALUES ('" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
+        consulta = " INSERT INTO objectes (nom,pes,descripcio,idLocalitzacio) VALUES ('" + objNom + "','" + objPes + "','" + objDescripcio + "','" + objIdLocalitzacio + "');"
         cursor.execute(consulta)
         connexio.commit()
-        print(Fore.GREEN + "Localització creada")
+        print(Fore.GREEN + "Objecte creat")
         print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError):
-        print(Fore.RED + "La localització no s'ha creat correctament\n")
+        print(Fore.RED + "El Objecte no s'ha creat correctament\n")
         print(Fore.RESET)
 
     finally:
@@ -55,29 +54,30 @@ def crearLocalitzacio():
             connexio.close()
 
 
-def modificarLocalitzacio():
+def modificarObjecte():
+    global connexio
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols modificar: ")
-        consulta = " SELECT FROM localitzacions WHERE id= " + idlocalitzacio + ";"
+        idObjecte = input("Posa la ID del objecte que vols modificar: ")
+        consulta = " SELECT FROM objectes WHERE id= " + idObjecte + ";"
         if consulta:
-            lclnom = input("Introdueix el nou nom de la localització: ")
-            lcldescripcio = input("Introdueix la nova descripcio de la localització: ")
-            lclsortides = input("Introdueix la nova petita descripció per a la sortida de la localització: ")
+            objNom = input("Introdueix el nom del nou objecte: ")
+            objPes = input("Introdueix el pes del nou objecte: ")
+            objDescripcio = input("Introdueix la descripcio del nou objecte: ")
+            objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
             # SENTENCIA A EXECUTAR
-            consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
+            consulta = "DELETE FROM objectes WHERE id = " + idObjecte + ";"
             cursor.execute(consulta)
             connexio.commit()
-            consulta = " INSERT INTO localitzacions (id,nom,descripcio,sortides) VALUES (" + idlocalitzacio + ",'" + lclnom + "','" + lcldescripcio + "','" + lclsortides + "');"
+            consulta = " INSERT INTO objectes (nom,pes,descripcio,idLocalitzacio) VALUES ('" + objNom + "','" + objPes + "','" + objDescripcio + "','" + objIdLocalitzacio + "');"
             cursor.execute(consulta)
             connexio.commit()
-            print(Fore.GREEN + "Localització modificiada")
+            print(Fore.GREEN + "Objecte modificat")
             print(Fore.RESET)
-            print()
 
     except(Exception, psycopg2.DatabaseError):
         print(Fore.RED + "Aquesta ID no existeix\n")
@@ -88,20 +88,20 @@ def modificarLocalitzacio():
             connexio.close()
 
 
-def eliminarLocalitzacio():
+def eliminarObjecte():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idlocalitzacio = input("Posa la ID de la localització que vols eliminar: ")
+        idObjecte = input("Posa la ID del objecte que vols eliminar: ")
 
         # SENTENCIA A EXECUTAR
-        consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
+        consulta = "DELETE FROM objectes WHERE id = " + idObjecte + ";"
         cursor.execute(consulta)
         connexio.commit()
-        print(Fore.GREEN + "Localització borrada")
+        print(Fore.GREEN + "Objecte borrada")
         print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError):
@@ -113,7 +113,7 @@ def eliminarLocalitzacio():
             connexio.close()
 
 
-def llistarLocalitzacions():
+def llistarObjectes():
     try:
         # PARAMETRES NECESSARIS PER CONECTARNOS A LA NOSTRA BD
         params = config()
@@ -121,7 +121,7 @@ def llistarLocalitzacions():
         cursor = connexio.cursor()
 
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT * FROM localitzacions;"
+        consulta = " SELECT * FROM objectes;"
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:
@@ -139,13 +139,13 @@ def llistarLocalitzacions():
             connexio.close()
 
 
-def menuLocalitzacions():
-    while(True):
-        print("1- Mostrar una localització")
-        print("2- Crear una localització")
-        print("3- Modificar una localització")
-        print("4- Eliminar una localització")
-        print("5- Llistar totes les localitzacions")
+def menuObjectes():
+    while (True):
+        print("1- Mostrar un objecte")
+        print("2- Crear un objecte")
+        print("3- Modificar un objecte")
+        print("4- Eliminar un objecte")
+        print("5- Llistar tots els objectes")
         print("6- Sortir")
         resposta = int(input("Introduiex una opció: "))
 
@@ -154,18 +154,16 @@ def menuLocalitzacions():
             break
 
         if resposta == 1:
-            mostrarDescripcioLocalitzacio()
+            mostrarDescripcioObjectes()
 
         if resposta == 2:
-            crearLocalitzacio()
+            crearObjecte()
 
         if resposta == 3:
-            modificarLocalitzacio()
+            modificarObjecte()
 
         if resposta == 4:
-            eliminarLocalitzacio()
+            eliminarObjecte()
 
         if resposta == 5:
-            llistarLocalitzacions()
-
-
+            llistarObjectes()
