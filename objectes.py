@@ -10,7 +10,7 @@ def mostrarDescripcioObjectes():
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        idObjectes = input("Posa la ID del objecte que vols veure: ")
+        id = input("Posa la ID del objecte que vols veure: ")
         # SENTENCIA A EXECUTAR
         consulta = " SELECT descripcio FROM objectes WHERE id= " + id + ";"
         cursor.execute(consulta)
@@ -35,13 +35,13 @@ def crearObjecte():
         cursor = connexio.cursor()
         objId = input("Introdueix la ID del nou objecte: ")
         objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
+        objNom = input("Introdueix el nom del nou objecte: ")
+        objPes = input("Introdueix el pes del nou objecte: ")
+        objDescripcio = input("Introdueix la descripcio del nou objecte: ")
         print("Selecciona una resposta: "
               "\n1- Si"
               "\n2- No")
         objInventari = input("Aquest objecte està a l'inventari? ")
-        objNom = input("Introdueix el nom del nou objecte: ")
-        objPes = input("Introdueix el pes del nou objecte: ")
-        objDescripcio = input("Introdueix la descripcio del nou objecte: ")
         # SENTENCIA A EXECUTAR
         consulta = " INSERT INTO objectes (id,idlocalitzacio,object,inventari) VALUES ('" + objId + "','" + objIdLocalitzacio + "',('" + objNom + "','" + objPes + "','" + objDescripcio + "'),'" + objInventari + "');"
         cursor.execute(consulta)
