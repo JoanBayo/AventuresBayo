@@ -209,15 +209,15 @@ def llistarCami():
 
 def menuCamins():
     while(True):
-        print("1- Mostrar una camí mijançant el seu Origen i Desti")
-        print("2- Mostrar els camí mijançant el seu Origen ")
-        print("3- Mostrar els camí mijançant el seu Desti")
+        print("1- Mostrar una camí mitjançant el seu Origen i Desti")
+        print("2- Mostrar els camí mitjançant el seu Origen ")
+        print("3- Mostrar els camí mitjançant el seu Desti")
         print("4- Crear una camí")
         print("5- Modificar una camí")
         print("6- Eliminar una camí")
         print("7- Llistar totes les camins")
         print("8- Sortir")
-        resposta = int(input("Introduiex una opció: "))
+        resposta = int(input("Introdueix una opció: "))
 
         if resposta == 8:
             print("Menu Principal:\n")

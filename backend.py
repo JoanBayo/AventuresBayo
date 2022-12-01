@@ -147,7 +147,7 @@ def menuLocalitzacions():
         print("4- Eliminar una localització")
         print("5- Llistar totes les localitzacions")
         print("6- Sortir")
-        resposta = int(input("Introduiex una opció: "))
+        resposta = int(input("Introdueix una opció: "))
 
         if resposta == 6:
             print("Menu Principal:\n")
