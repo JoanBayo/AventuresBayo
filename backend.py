@@ -14,10 +14,10 @@ def mostrarDescripcioLocalitzacio():
 
         idlocalitzacio = input("Posa la ID de la localització que vols veure: ")
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT descripcio FROM localitzacions WHERE id= " + idlocalitzacio + ";"
+        consulta = " SELECT nom, descripcio FROM localitzacions WHERE id= " + idlocalitzacio + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
-        print(Fore.BLUE + (answer[0] + "\n"))
+        print(Fore.BLUE + f'{answer}' + "\n")
         print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError):
@@ -121,7 +121,7 @@ def llistarLocalitzacions():
         cursor = connexio.cursor()
 
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT * FROM localitzacions;"
+        consulta = " SELECT id,nom,sortides FROM localitzacions;"
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:

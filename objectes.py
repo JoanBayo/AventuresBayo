@@ -132,7 +132,7 @@ def llistarObjectes():
         cursor = connexio.cursor()
 
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT * FROM objectes;"
+        consulta = " SELECT id,object FROM objectes;"
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:

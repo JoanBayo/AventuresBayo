@@ -29,5 +29,5 @@ while True:
         menuObjectes()
 
     if resposta == 4:
-        print("Edita el teu protagonista al teu gust:")
+        print("Edita el protagonista al teu gust:")
         menuProtagonista()

@@ -1,6 +1,6 @@
  CREATE TABLE protagonista ( nom VARCHAR(50), descripcio VARCHAR(100), sexe TEXT CHECK (sexe IN('masculí','femení','altres')), edad INT,
  altura INT, pes INT, forca INT, des INT, res INT, SALUT INT, PRIMARY KEY (nom),
- constraint valid_number check (edad < 99), check (edad > 18), check (forca < 20), check (forca > 0),
- check (DES < 20), check (DES > 0),check (RES < 20), check (RES > 0));
+ constraint valid_number check (edad < 100), check (edad > 17), check (forca < 21), check (forca > 0),
+ check (DES < 21), check (DES > 0),check (RES < 21), check (RES > 0));
 
 INSERT INTO protagonista VALUES ('manolo','alasjdfklasjflkasjflkasjflaskjf','masculí',16,2,2,2,2,2,2)

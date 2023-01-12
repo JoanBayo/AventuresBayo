@@ -13,27 +13,34 @@ def menuProtagonista():
         cursor = connexio.cursor()
 
 
-        consulta = "DELETE * FROM protagonista;"
+        consulta = "DELETE FROM protagonista;"
         cursor.execute(consulta)
-        objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
-        objNom = input("Introdueix el nom del nou objecte: ")
-        objPes = input("Introdueix el pes del nou objecte, es contara en kilograms: ")
-        objDescripcio = input("Introdueix la descripcio del nou objecte: ")
-        print("Selecciona una resposta en 1 o 2: "
-              "\n1- Si"
-              "\n0- No")
-        objInventari = input("Aquest objecte està a l'inventari? ")
+        nom = input("Introdueix el nom: ")
+        descripcio = input("Fes una breu descricpió del personatge: ")
+        sexe = input("Introduiex el sexe del personatge pot ser masculí, femení i altres: ")
+        edad = input("Introdueix la edad a de ser major de 18 i menor de 99: ")
+        altura = input("Introdueix l'alçada, els decimals amb un (.) = 1.82: ")
+        pes = input("Introdueix el pes, els decimals amb un (.) = 70.8: ")
+        print()
+        print("Ara posarem els estats del teu personatge, tots han de estar entre 1-20")
+        forca = input("- Força: ")
+        resistencia = input("- Rsistencia: ")
+        destresa = input("- Destresa: ")
+        print("La salut del teu personatge serà dos cops la seva resistencia")
+        salut = resistencia*2
+
+
         # SENTENCIA A EXECUTAR
-        consulta = " INSERT INTO objectes (id,idlocalitzacio,object,inventari) VALUES ('" + idObjecte + "','" + objIdLocalitzacio + "',('" + objNom + "','" + objPes + "','" + objDescripcio + "'),'" + objInventari + "');"
+        consulta = "INSERT INTO protagonista VALUES ('" + nom + "','" + descripcio + "','" + sexe + "'," + edad + "," + altura + "," + pes + "," + forca + "," + destresa + "," + resistencia + "," + salut + ");"
         cursor.execute(consulta)
         connexio.commit()
-        print(Fore.GREEN + "Objecte creat")
+        print(Fore.GREEN + "Personatge actualitzat perfectament!")
         print(Fore.RESET)
 
     except Exception as e:
-        print(Fore.RED + "Aquesta ID no existeix\n")
-        print(Fore.RESET)
         print(e)
+        print(Fore.RED + "Algun dels valors anteriors no és correcte, mira bé les condicions i torna a provar-ho")
+        print(Fore.RESET)
 
     finally:
         if connexio is not None:

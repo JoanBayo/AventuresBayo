@@ -19,7 +19,7 @@ def mostraCamiOrigenDesti():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.BLUE + (str(answer) + "\n"))
             print(Fore.RESET)
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
@@ -47,7 +47,7 @@ def mostraCamiOrigen():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.BLUE + (str(answer) + "\n"))
             print(Fore.RESET)
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
@@ -75,7 +75,7 @@ def mostraCamiDesti():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.MAGENTA + (str(answer) + "\n"))
+            print(Fore.BLUE + (str(answer) + "\n"))
             print(Fore.RESET)
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
