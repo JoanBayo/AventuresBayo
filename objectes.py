@@ -10,17 +10,18 @@ def mostrarDescripcioObjectes():
         connexio = psycopg2.connect(**params)
         cursor = connexio.cursor()
 
-        id = input("Posa la ID del objecte que vols veure: ")
+        objid = input("Posa la ID del objecte que vols veure: ")
         # SENTENCIA A EXECUTAR
-        consulta = " SELECT descripcio FROM objectes WHERE id= " + id + ";"
+        consulta = "select * from objectes where id = " + objid + ";"
         cursor.execute(consulta)
         answer = cursor.fetchone()
-        print(Fore.BLUE + (answer[0] + "\n"))
+        print(Fore.BLUE +f'{answer}'+ "\n")
         print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError):
+    except Exception as e:
         print(Fore.RED + "Aquesta ID no existeix\n")
         print(Fore.RESET)
+        print(e)
 
     finally:
         if connexio is not None:
@@ -36,12 +37,13 @@ def crearObjecte():
         objId = input("Introdueix la ID del nou objecte: ")
         objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
         objNom = input("Introdueix el nom del nou objecte: ")
-        objPes = input("Introdueix el pes del nou objecte: ")
+        objPes = input("Introdueix el pes del nou objecte, es contara en kilograms: ")
         objDescripcio = input("Introdueix la descripcio del nou objecte: ")
-        print("Selecciona una resposta: "
+        print("Selecciona una resposta amb 1 o 2: "
               "\n1- Si"
-              "\n2- No")
+              "\n0- No")
         objInventari = input("Aquest objecte està a l'inventari? ")
+
         # SENTENCIA A EXECUTAR
         consulta = " INSERT INTO objectes (id,idlocalitzacio,object,inventari) VALUES ('" + objId + "','" + objIdLocalitzacio + "',('" + objNom + "','" + objPes + "','" + objDescripcio + "'),'" + objInventari + "');"
         cursor.execute(consulta)
@@ -49,9 +51,10 @@ def crearObjecte():
         print(Fore.GREEN + "Objecte creat")
         print(Fore.RESET)
 
-    except(Exception, psycopg2.DatabaseError):
+    except Exception as e:
         print(Fore.RED + "El Objecte no s'ha creat correctament\n")
         print(Fore.RESET)
+        print (e)
 
     finally:
         if connexio is not None:
@@ -69,24 +72,27 @@ def modificarObjecte():
         idObjecte = input("Posa la ID del objecte que vols modificar: ")
         consulta = " SELECT FROM objectes WHERE id= " + idObjecte + ";"
         if consulta:
-            objId = input("Introdueix la ID del nou objecte: ")
+
+            consulta = "DELETE FROM objectes WHERE id = " + idObjecte + ";"
+            cursor.execute(consulta)
             objIdLocalitzacio = input("Introdueix la IdLocalització del nou objecte: ")
-            print("Selecciona una resposta: "
-                  "\n1- Si"
-                  "\n2- No")
-            objInventari = input("Aquest objecte està a l'inventari? ")
             objNom = input("Introdueix el nom del nou objecte: ")
-            objPes = input("Introdueix el pes del nou objecte: ")
+            objPes = input("Introdueix el pes del nou objecte, es contara en kilograms: ")
             objDescripcio = input("Introdueix la descripcio del nou objecte: ")
+            print("Selecciona una resposta en 1 o 2: "
+                  "\n1- Si"
+                  "\n0- No")
+            objInventari = input("Aquest objecte està a l'inventari? ")
             # SENTENCIA A EXECUTAR
-            consulta = " INSERT INTO objectes (id,idlocalitzacio,object,inventari) VALUES ('" + objId + "','" + objIdLocalitzacio + "',('" + objNom + "','" + objPes + "','" + objDescripcio + "'),'" + objInventari + "');"
+            consulta = " INSERT INTO objectes (id,idlocalitzacio,object,inventari) VALUES ('" + idObjecte + "','" + objIdLocalitzacio + "',('" + objNom + "','" + objPes + "','" + objDescripcio + "'),'" + objInventari + "');"
             cursor.execute(consulta)
             connexio.commit()
             print(Fore.GREEN + "Objecte creat")
             print(Fore.RESET)
-    except(Exception, psycopg2.DatabaseError):
+    except Exception as e:
         print(Fore.RED + "Aquesta ID no existeix\n")
         print(Fore.RESET)
+        print(e)
 
     finally:
         if connexio is not None:
@@ -103,7 +109,7 @@ def eliminarObjecte():
         idObjecte = input("Posa la ID del objecte que vols eliminar: ")
 
         # SENTENCIA A EXECUTAR
-        consulta = "DELETE FROM objectes WHERE id = " + id + ";"
+        consulta = "DELETE FROM objectes WHERE id = " + idObjecte + ";"
         cursor.execute(consulta)
         connexio.commit()
         print(Fore.GREEN + "Objecte borrada")
