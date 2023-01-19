@@ -101,8 +101,12 @@ def eliminarLocalitzacio():
         consulta = "DELETE FROM localitzacions WHERE id = " + idlocalitzacio + ";"
         cursor.execute(consulta)
         connexio.commit()
-        print(Fore.GREEN + "Localització borrada")
-        print(Fore.RESET)
+        if consulta:
+            print(Fore.GREEN + "Localització borrada")
+            print(Fore.RESET)
+        else:
+            print(Fore.RED + "Aquesta localització no existeix\n")
+            print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError):
         print(Fore.RED + "Aquesta ID no existeix\n")
@@ -147,25 +151,31 @@ def menuLocalitzacions():
         print("4- Eliminar una localització")
         print("5- Llistar totes les localitzacions")
         print("6- Sortir")
-        resposta = int(input("Introdueix una opció: "))
 
-        if resposta == 6:
-            print("Menu Principal:\n")
-            break
+        try:
 
-        if resposta == 1:
-            mostrarDescripcioLocalitzacio()
+            resposta = int(input("Introdueix una opció: "))
+            if resposta == 6:
+                print("Menu Principal:\n")
+                break
 
-        if resposta == 2:
-            crearLocalitzacio()
+            if resposta == 1:
+                mostrarDescripcioLocalitzacio()
 
-        if resposta == 3:
-            modificarLocalitzacio()
+            if resposta == 2:
+                crearLocalitzacio()
 
-        if resposta == 4:
-            eliminarLocalitzacio()
+            if resposta == 3:
+                modificarLocalitzacio()
 
-        if resposta == 5:
-            llistarLocalitzacions()
+            if resposta == 4:
+                eliminarLocalitzacio()
+
+            if resposta == 5:
+                llistarLocalitzacions()
+
+        except:
+            print("Aquesta opció no esta disponible")
+
 
 

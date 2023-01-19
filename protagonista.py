@@ -27,7 +27,7 @@ def menuProtagonista():
         resistencia = input("- Rsistencia: ")
         destresa = input("- Destresa: ")
         print("La salut del teu personatge serà dos cops la seva resistencia")
-        salut = resistencia*2
+        salut = int(resistencia)*2
 
 
         # SENTENCIA A EXECUTAR

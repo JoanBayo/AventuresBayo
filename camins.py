@@ -19,8 +19,11 @@ def mostraCamiOrigenDesti():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.BLUE + (str(answer) + "\n"))
-            print(Fore.RESET)
+            while answer is not None:
+                print(Fore.BLUE + str(answer))
+                print(Fore.RESET)
+                answer = cursor.fetchone()
+            cursor.close()
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
             print(Fore.RESET)
@@ -47,8 +50,11 @@ def mostraCamiOrigen():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.BLUE + (str(answer) + "\n"))
-            print(Fore.RESET)
+            while answer is not None:
+                print(Fore.BLUE + str(answer))
+                print(Fore.RESET)
+                answer = cursor.fetchone()
+            cursor.close()
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
             print(Fore.RESET)
@@ -75,8 +81,11 @@ def mostraCamiDesti():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         if answer is not None:
-            print(Fore.BLUE + (str(answer) + "\n"))
-            print(Fore.RESET)
+            while answer is not None:
+                print(Fore.BLUE + str(answer))
+                print(Fore.RESET)
+                answer = cursor.fetchone()
+            cursor.close()
         else:
             print(Fore.RED + "Aquest camí no existeix\n")
             print(Fore.RESET)
@@ -139,7 +148,7 @@ def modificarCami():
             print(Fore.RESET)
 
     except(Exception, psycopg2.DatabaseError):
-        print(Fore.RED + "Aquesta camí no existeix\n")
+        print(Fore.RED + "Aquest camí no existeix\n")
         print(Fore.RESET)
 
     finally:
@@ -169,12 +178,12 @@ def eliminarCami():
             print(Fore.GREEN + "Localització borrada")
             print(Fore.RESET)
         else:
-            print(Fore.RED + "Aquesta camí no existeix\n")
+            print(Fore.RED + "Aquest camí no existeix\n")
             print(Fore.RESET)
 
 
     except(Exception, psycopg2.DatabaseError):
-        print(Fore.RED + "Aquesta camí no existeix\n")
+        print(Fore.RED + "Aquest camí no existeix\n")
         print(Fore.RESET)
 
     finally:
@@ -194,7 +203,7 @@ def llistarCami():
         cursor.execute(consulta)
         answer = cursor.fetchone()
         while answer is not None:
-            print(Fore.MAGENTA + str(answer))
+            print(Fore.BLUE + str(answer))
             print(Fore.RESET)
             answer = cursor.fetchone()
         cursor.close()
@@ -217,31 +226,34 @@ def menuCamins():
         print("6- Eliminar una camí")
         print("7- Llistar totes les camins")
         print("8- Sortir")
-        resposta = int(input("Introdueix una opció: "))
+        try:
+            resposta = int(input("Introdueix una opció: "))
 
-        if resposta == 8:
-            print("Menu Principal:\n")
-            break
+            if resposta == 8:
+                print("Menu Principal:\n")
+                break
 
-        if resposta == 1:
-            mostraCamiOrigenDesti()
+            if resposta == 1:
+                mostraCamiOrigenDesti()
 
-        if resposta == 2:
-            mostraCamiOrigen()
+            if resposta == 2:
+                mostraCamiOrigen()
 
-        if resposta == 3:
-            mostraCamiOrigen()
+            if resposta == 3:
+                mostraCamiOrigen()
 
-        if resposta == 4:
-            crearCami()
+            if resposta == 4:
+                crearCami()
 
-        if resposta == 5:
-            modificarCami()
+            if resposta == 5:
+                modificarCami()
 
-        if resposta == 6:
-            eliminarCami()
+            if resposta == 6:
+                eliminarCami()
 
-        if resposta == 7:
-           llistarCami()
+            if resposta == 7:
+               llistarCami()
+        except:
+            print("Aquesta opció no esta disponible")
 
 

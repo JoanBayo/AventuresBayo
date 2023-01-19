@@ -158,26 +158,27 @@ def menuObjectes():
         print("4- Eliminar un objecte")
         print("5- Llistar tots els objectes")
         print("6- Sortir")
-        resposta = int(input("Introdueix una opció: "))
+        try:
+            resposta = int(input("Introdueix una opció: "))
 
-        if resposta == 6:
-            print("Menu Principal:\n")
-            break
+            if resposta == 6:
+                print("Menu Principal:\n")
+                break
 
-        if resposta == 1:
-            mostrarDescripcioObjectes()
+            if resposta == 1:
+                mostrarDescripcioObjectes()
 
-        if resposta == 2:
-            crearObjecte()
+            if resposta == 2:
+                crearObjecte()
 
-        if resposta == 3:
-            modificarObjecte()
+            if resposta == 3:
+                modificarObjecte()
 
-        if resposta == 4:
-            eliminarObjecte()
+            if resposta == 4:
+                eliminarObjecte()
 
-        if resposta == 5:
-            llistarObjectes()
+            if resposta == 5:
+                llistarObjectes()
 
-            # Se te que treballar en types, per fer aixo mirar a dungeonofbits, tenim que crear uuna taula objectes que incloura id, id localitzacions i lo type de objectes el qual inclou nom pes i descripcio, per fer tot aixo tenim que modificar molt tot aixo
-
+        except:
+            print("Aquesta opció no esta disponible")
