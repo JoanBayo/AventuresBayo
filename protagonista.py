@@ -27,8 +27,7 @@ def menuProtagonista():
         resistencia = input("- Rsistencia: ")
         destresa = input("- Destresa: ")
         print("La salut del teu personatge serà dos cops la seva resistencia")
-        salut = int(resistencia)*2
-
+        salut = str(int(resistencia)*2)
 
         # SENTENCIA A EXECUTAR
         consulta = "INSERT INTO protagonista VALUES ('" + nom + "','" + descripcio + "','" + sexe + "'," + edad + "," + altura + "," + pes + "," + forca + "," + destresa + "," + resistencia + "," + salut + ");"
